@@ -1,7 +1,9 @@
 import pygame
+
 from settings import *
 from effects import Crumbs
 from powerups import Goose, Bunshin
+from animations import spring_animation
 
 class Player(pygame.sprite.Sprite):
     """Clase que representa al jugador principal"""
@@ -14,13 +16,12 @@ class Player(pygame.sprite.Sprite):
             pygame.image.load('images/personaje/player_1.png'),
             pygame.image.load('images/personaje/player_2.png'),
             ]
-        self.spice_image_list = [
-            pygame.image.load('images/personaje/player_0.png'),
+        self.idle_image_list = [
             pygame.image.load('images/personaje/player_1.png'),
-            pygame.image.load('images/personaje/player_2.png'),
+            pygame.image.load('images/personaje/player_idle_1.png'),
         ]
-        self.animation = 0
-        self.image = self.image_list[self.animation]
+        self.index = 0
+        self.image = self.image_list[self.index]
         self.rect = self.image.get_rect()
         self.rect.center = (window_width // 2, window_heigh - 50)
         self.dash = False
@@ -28,15 +29,18 @@ class Player(pygame.sprite.Sprite):
         self.max_spice = 220
         self.spice = 0
         self.animation_counter = 0
+        self.animation_increase = 1
         self.speedup_counter = 0
         self.bunshin_active = False
         self.bunshin_counter = 0
         self.status = 'idle'
+        
 
     def update(self):
         self._move()
         self._dash()
         self._spice_cap()
+        self._animate_me()
         
 
     def _move(self):
@@ -45,18 +49,16 @@ class Player(pygame.sprite.Sprite):
 
         if pressed[pygame.K_a] or pressed[pygame.K_LEFT]:
             self.rect.x -= self.speed
-            self._animate_me()
-            self.image = self.image_list[self.animation]
+            self.status = "moving"
+            
 
         elif pressed[pygame.K_d] or pressed[pygame.K_RIGHT]:
             self.rect.x += self.speed
-            self._animate_me()
-            self.image = self.image_list[self.animation]
+            self.status = "moving"
+            
 
         else:
-            self.image = self.image_list[1]
-            self.animation = 0
-            self.animation_counter = 0
+            self.status = "idle"
         
         if self.rect.left < 0:
             self.rect.left = 0
@@ -64,7 +66,6 @@ class Player(pygame.sprite.Sprite):
         if self.rect.right > window_width:
             self.rect.right = window_width
 
-        
 
     def _dash(self):
 
@@ -83,26 +84,28 @@ class Player(pygame.sprite.Sprite):
 
  
     def _animate_me(self):
-        self.animation_counter += 1
+        
+        if self.status == "moving":
+            
+            self.index, self.animation_counter, self.animation_increase = spring_animation(
+                self.image_list, 
+                15, 
+                self.index, 
+                self.animation_counter, 
+                self.animation_increase
+                )
+            self.image = self.image_list[self.index]
 
-        if self.animation_counter == 15:
-            self.animation = 1
+        elif self.status == "idle":
+            self.index, self.animation_counter, self.animation_increase = spring_animation(
+                self.idle_image_list, 
+                25, 
+                self.index, 
+                self.animation_counter, 
+                self.animation_increase
+                )
+            self.image = self.idle_image_list[self.index]
 
-        if self.animation_counter == 30:
-            self.animation = 2
-
-        if self.animation_counter == 45:
-            self.animation = 1
-
-        if self.animation_counter == 60:
-            self.animation = 0
-            self.animation_counter = 0
-
-        if self.bunshin_active == True:
-            self.bunshin_counter += 1
-
-        if self.bunshin_counter == 480:
-            self.bunshin_counter = 0
 
     def _spice_cap(self):
         if self.spice >= self.max_spice:

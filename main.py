@@ -137,7 +137,6 @@ class RainingTacos:
             self._update_groups()
             self.spawner.update()
             self.gs.manage_double()
-            self.debug.show(self.player.animation)
 
         if self.gs.status == "pause":
             self.screen.blit(self.background,(0,0))
