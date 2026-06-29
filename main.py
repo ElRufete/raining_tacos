@@ -131,7 +131,6 @@ class RainingTacos:
             if self.spawner.balloon_boy.animation_counter >= 120:
                 self.gs.status = "game over"
             
-            
         if self.gs.status == "gameplay":
             self.screen.blit(self.background,(0,0))
             self._update_groups()
