@@ -3,6 +3,7 @@ import pygame
 from settings import *
 from effects import Crumbs
 from powerups import Goose, Bunshin
+from player_head import PlayerHead
 from animations import spring_animation
 
 class Player(pygame.sprite.Sprite):
@@ -23,7 +24,7 @@ class Player(pygame.sprite.Sprite):
         self.index = 0
         self.image = self.image_list[self.index]
         self.rect = self.image.get_rect()
-        self.rect.center = (window_width // 2, window_heigh - 50)
+        self.rect.midbottom= (window_width // 2, window_heigh)
         self.dash = False
         self.speed = 8
         self.max_spice = 220
@@ -34,6 +35,8 @@ class Player(pygame.sprite.Sprite):
         self.bunshin_active = False
         self.bunshin_counter = 0
         self.status = 'idle'
+        self.head = PlayerHead(self)
+        heads.add(self.head)
         
 
     def update(self):
@@ -95,6 +98,7 @@ class Player(pygame.sprite.Sprite):
                 self.animation_increase
                 )
             self.image = self.image_list[self.index]
+            
 
         elif self.status == "idle":
             self.index, self.animation_counter, self.animation_increase = spring_animation(
@@ -105,8 +109,7 @@ class Player(pygame.sprite.Sprite):
                 self.animation_increase
                 )
             self.image = self.idle_image_list[self.index]
-
-
+            
     def _spice_cap(self):
         if self.spice >= self.max_spice:
             self.spice = self.max_spice
@@ -123,5 +126,9 @@ class Player(pygame.sprite.Sprite):
     def get_crumbs(self):
         crumbs = Crumbs(self.rect.midtop)
         effects.add(crumbs)
+
+
+
+        
 
     

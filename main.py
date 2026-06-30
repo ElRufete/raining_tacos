@@ -51,9 +51,6 @@ class RainingTacos:
                 self._update_screen()
                 self._gameover()
                 
-                
-                
-                
     def _gameover(self):
         """Prepara el menú de game over 
         si el jugador se queda sin vidas"""
@@ -149,7 +146,6 @@ class RainingTacos:
             if self.ui.menu_bt.click():
                 self._go_menu()
 
-
         if self.gs.status == "game over":
             if self.ui.quit_bt.click():
                 sys.exit()
@@ -198,25 +194,41 @@ class RainingTacos:
         """comprueba si los sprites chocan entre sí"""
         collision = pygame.sprite.spritecollide(
             self.player, tacos, True)
+        collision_head = pygame.sprite.spritecollide(
+            self.player.head, tacos, True)
         collision_bunshin = pygame.sprite.groupcollide(
             bunshins, tacos, False, True)
         collision_clancy = pygame.sprite.groupcollide(
             clancies, tacos, False, True)
         collision_goose_icon = pygame.sprite.spritecollide(
             self.player, goose_icons, True)
+        collision_goose_icon_head = pygame.sprite.spritecollide(
+            self.player.head, goose_icons, True)
         collision_heart = pygame.sprite.spritecollide(
             self.player, heart_icons, True)
+        collision_heart_head = pygame.sprite.spritecollide(
+            self.player.head, heart_icons, True)
         collision_pepper = pygame.sprite.spritecollide(
             self.player, pepper_icons, True)
+        collision_pepper_head = pygame.sprite.spritecollide(
+            self.player.head, pepper_icons, True)
         collision_bunshin_icon = pygame.sprite.spritecollide(
             self.player, bunshin_icons, True)
+        collision_bunshin_icon_head = pygame.sprite.spritecollide(
+            self.player.head, bunshin_icons, True)
         collision_goose = pygame.sprite.groupcollide(
             geese, tacos, False, True)
         collision_limon_icon = pygame.sprite.spritecollide(
             self.player, limon_icons, True)
+        collision_limon_icon_head = pygame.sprite.spritecollide(
+            self.player.head, limon_icons, True)
         collision_clancy_icon = pygame.sprite.spritecollide(
             self.player, clancy_icons, True)
+        collision_clancy_icon_head = pygame.sprite.spritecollide(
+            self.player, clancy_icons, True)
         collision_double_icon = pygame.sprite.spritecollide(
+            self.player, double_icons, True)
+        collision_double_icon_head = pygame.sprite.spritecollide(
             self.player, double_icons, True)
 
 
@@ -236,7 +248,7 @@ class RainingTacos:
             self.gs.score +=1
             shark.play()
         
-        if collision:
+        if collision or collision_head:
 
             if self.gs.double:
                 self.gs.score += 2
@@ -249,7 +261,7 @@ class RainingTacos:
             nom.play()
 
             
-        if collision_goose_icon:
+        if collision_goose_icon or collision_goose_icon_head:
             self.player.get_goose()
             
         if collision_goose:
@@ -260,34 +272,34 @@ class RainingTacos:
                     self.gs.score += 1
                     quack.play()
 
-        if collision_heart:
+        if collision_heart or collision_heart_head:
             if self.gs.lives < 10:
                 self.gs.lives += 1
                 life_up.play()
         
-        if collision_pepper:
+        if collision_pepper or collision_pepper_head:
             self.player.spice += 100
             life_up.play()
 
-        if collision_bunshin_icon:
+        if collision_bunshin_icon or collision_bunshin_icon_head:
             if len(bunshins) <= 0:
                 self.player.get_bunshin()
             else:
                 for bunshin in bunshins:
                     bunshin.renew()
             
-        if collision_limon_icon:
+        if collision_limon_icon or collision_limon_icon_head:
             for taco in tacos:
                 taco.islimon = True
             limon_sounds[0].play()
 
-        if collision_clancy_icon:
+        if collision_clancy_icon or collision_clancy_icon_head:
             if not self.spawner.clancy_active:
                 self.spawner.clancy_active = True
             else: self.spawner.clancy_counter = self.spawner.max_clancy_counter
             life_up.play()
 
-        if collision_double_icon:
+        if collision_double_icon or collision_double_icon_head:
             if not self.gs.double:
                 self.gs.double = True
             else: self.gs.double_counter = self.gs.max_double_counter
@@ -310,13 +322,14 @@ class RainingTacos:
         clancy_icons.update()
         pepper_icons.update()
         double_icons.update()
+        heads.update()
         
 
     def _draw_sprites(self):
         """Dibuja los sprites en la pantalla"""
         tacos.draw(self.screen)
         bunshins.draw(self.screen)
-        players.draw(self.screen)
+        
         geese.draw(self.screen)
         clancies.draw(self.screen)
         goose_icons.draw(self.screen)
@@ -327,8 +340,12 @@ class RainingTacos:
         pepper_icons.draw(self.screen)  
         double_icons.draw(self.screen)
         limons.draw(self.screen) 
-        effects.draw(self.screen)  
+        if self.gs.status == "gameplay" or self.gs.status == "pause":
+            heads.draw(self.screen)
+            players.draw(self.screen) 
 
+        effects.draw(self.screen)  
+        
 
     def restart_gameplay(self):
         """reinicia la partida"""
@@ -355,6 +372,7 @@ class RainingTacos:
         double_icons.empty()
         limons.empty()
         effects.empty()
+        heads.empty()
 
 
     def _reset_stats(self):

@@ -3,9 +3,10 @@ from settings import *
 from effects import Mist, Crumbs
 from random import randint
 from tacos import NTaco
+from player_head import PlayerHead
 
 class Goose(pygame.sprite.Sprite):
-    """Un ganso que come tacos a su paso"""
+    """Un ganso que vuela comiendo tacos a su paso"""
     def __init__(self, pos, player):
         super().__init__()
 
@@ -90,24 +91,29 @@ class Bunshin(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.bottom = window_heigh
         self.rect.centerx = x
+        self.index = player.index
+        self.status = player.status
         self.counter = 0
         self.bunshin_counter = 0
         self.bunshin_active = False
         self.flicker = False
+        self.head = PlayerHead(self)
+        heads.add(self.head)
 
     def update(self, player):
+        self.counter += 1
         self.image = player.image
         self._call_mist(player)
-        self.counter += 1
         self._move(player)
         self._flicker()
-        
+        self.index = player.index
+        self.status = player.status
         
     def _create_mist(self): 
         """crea un efecto de niebla"""   
         mist = Mist(self.rect.midbottom)
         effects.add(mist)
-
+   
     def _call_mist(self, player):
         """llama al efecto de niebla al aparecer y desaparecer"""
         if self.counter == 0:
@@ -118,8 +124,8 @@ class Bunshin(pygame.sprite.Sprite):
             player.bunshin_active = False
             self._create_mist()
             jutsu.play()
+            self.head.kill()
             self.kill()
-            
             
     def renew(self):
         self.counter = 1
@@ -140,6 +146,8 @@ class Bunshin(pygame.sprite.Sprite):
     def _flicker(self):
         """El clon parpadea cuando está a punto de expirar"""
 
+        images = [self.image, self.head.image]
+
         if (self.counter / 12).is_integer() and self.counter >= 360 and self.counter <= 420:
             self.flicker = True
 
@@ -150,12 +158,12 @@ class Bunshin(pygame.sprite.Sprite):
             self.flicker = False
 
         if self.flicker:
-            self.image = pygame.Surface((50, 100))
-            self.image.fill(black)
-            self.image.set_colorkey(black)
+            for image in images:
+                image = pygame.Surface((50, 100))
+                image.fill(black)
+                image.set_colorkey(black)
 
     def get_crumbs(self):
-
             self.crumbs = Crumbs(self.rect.midtop)
             effects.add(self.crumbs)
 
