@@ -127,6 +127,9 @@ class Player(pygame.sprite.Sprite):
         crumbs = Crumbs(self.rect.midtop)
         effects.add(crumbs)
 
+    def call_head(self):
+        self.head = PlayerHead(self)
+        heads.add(self.head)
 
 
         

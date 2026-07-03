@@ -85,6 +85,7 @@ class RainingTacos:
                 self.music = Music('music/raining_tacos.ogg')
                 self.music.play_music()
                 players.add(self.player)
+                self.player.call_head()
                 self.spawner.drop_clouds = True
                 clouds.empty()
                 bg_clouds.empty()
@@ -397,6 +398,7 @@ class RainingTacos:
     def _recall_player(self):
         """Vuelve a crear la instancia de jugador"""
         self.player = Player(self)
+        self.player.call_head()
         self.ui = UI(self)
         players.add(self.player)
 

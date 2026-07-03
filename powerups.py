@@ -96,6 +96,9 @@ class Bunshin(pygame.sprite.Sprite):
         self.counter = 0
         self.bunshin_counter = 0
         self.bunshin_active = False
+        self.duration = 480
+        self.flicker_thresshold = 360
+        self.hard_flicker_thersshold = 420
         self.flicker = False
         self.head = PlayerHead(self)
         heads.add(self.head)
@@ -116,7 +119,7 @@ class Bunshin(pygame.sprite.Sprite):
    
     def _call_mist(self, player):
         """llama al efecto de niebla al aparecer y desaparecer"""
-        if self.counter == 0:
+        if self.counter == 1:
             self._create_mist()
             jutsu.play()
             nani.play()
@@ -146,22 +149,21 @@ class Bunshin(pygame.sprite.Sprite):
     def _flicker(self):
         """El clon parpadea cuando está a punto de expirar"""
 
-        images = [self.image, self.head.image]
 
-        if (self.counter / 12).is_integer() and self.counter >= 360 and self.counter <= 420:
+        if (self.counter / 12).is_integer() and self.counter >= self.flicker_thresshold <= self.hard_flicker_thersshold:
             self.flicker = True
 
-        elif (self.counter / 4).is_integer() and self.counter > 420:
+        elif (self.counter / 4).is_integer() and self.counter > self.hard_flicker_thersshold:
             self.flicker = True
 
         else:
             self.flicker = False
 
         if self.flicker:
-            for image in images:
-                image = pygame.Surface((50, 100))
-                image.fill(black)
-                image.set_colorkey(black)
+            self.image = pygame.Surface((50, 100))
+            self.image.fill(black)
+            self.image.set_colorkey(black)
+            
 
     def get_crumbs(self):
             self.crumbs = Crumbs(self.rect.midtop)
