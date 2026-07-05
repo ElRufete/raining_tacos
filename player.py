@@ -36,7 +36,7 @@ class Player(pygame.sprite.Sprite):
         self.bunshin_counter = 0
         self.status = 'idle'
         self.head = PlayerHead(self)
-        heads.add(self.head)
+        
         
 
     def update(self):

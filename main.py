@@ -199,6 +199,8 @@ class RainingTacos:
             self.player.head, tacos, True)
         collision_bunshin = pygame.sprite.groupcollide(
             bunshins, tacos, False, True)
+        collision_heads= pygame.sprite.groupcollide(
+            heads, tacos, False, True)
         collision_clancy = pygame.sprite.groupcollide(
             clancies, tacos, False, True)
         collision_goose_icon = pygame.sprite.spritecollide(
@@ -237,6 +239,15 @@ class RainingTacos:
             for bunshin in collision_bunshin:
                 if bunshin in bunshins:
                     bunshin.get_crumbs()
+                    if self.player.spice < self.player.max_spice:
+                            self.player.spice += 8
+                    self.gs.score += 1
+                    nom.play()
+
+        if collision_heads:
+            for head in collision_heads:
+                if head in heads:
+                    head.caller.get_crumbs()
                     if self.player.spice < self.player.max_spice:
                             self.player.spice += 8
                     self.gs.score += 1

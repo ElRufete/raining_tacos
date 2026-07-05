@@ -101,7 +101,7 @@ class Bunshin(pygame.sprite.Sprite):
         self.hard_flicker_thersshold = 420
         self.flicker = False
         self.head = PlayerHead(self)
-        heads.add(self.head)
+        
 
     def update(self, player):
         self.counter += 1

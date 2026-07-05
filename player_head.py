@@ -16,6 +16,7 @@ class PlayerHead(pygame.sprite.Sprite):
         self.image = self.image_list[1]
         self.rect = self.image.get_rect()
         self.rect.midbottom = self.caller.rect.midtop
+        heads.add(self)
         
 
 
