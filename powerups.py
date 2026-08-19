@@ -143,7 +143,7 @@ class Bunshin(pygame.sprite.Sprite):
             if pressed[pygame.K_a] or pressed[pygame.K_LEFT]:
                 self.rect.x -= player.speed
 
-            if pressed[pygame.K_d] or pressed[pygame.K_RIGHT]:
+            elif pressed[pygame.K_d] or pressed[pygame.K_RIGHT]:
                 self.rect.x += player.speed
 
     def _flicker(self):

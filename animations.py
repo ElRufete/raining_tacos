@@ -20,8 +20,6 @@ def spring_animation(list, interval, index, counter, increase):
         index += increase
         counter = 0
 
-    
-
     return index, counter, increase
 
     

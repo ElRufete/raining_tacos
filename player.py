@@ -79,7 +79,6 @@ class Player(pygame.sprite.Sprite):
             self.spice -= 1
             self.speedup_counter += 1
             
-
         else:
             self.speed = 8
             self.speedup_counter = 0
