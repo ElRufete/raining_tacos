@@ -22,4 +22,22 @@ def spring_animation(list, interval, index, counter, increase):
 
     return index, counter, increase
 
+def linear_animation(list, interval, index, counter, increase=1):
+    """Crea una animación lineal en bucle infinito, devuelve índice y contador"""
+    counter +=1
     
+    if index >= len(list) - 1:
+        index = len(list) - 1
+
+
+    if counter >= interval:
+
+        if index < len(list) - 1:
+            index += increase
+
+        else:
+            index = 0
+        
+        counter = 0
+
+    return index, counter

@@ -232,6 +232,10 @@ class GooseIcon(NTaco):
             self.sound.play()
             self.kill()
 
+    def update(self):
+        self._fall()
+        self._crash()
+
 class HeartIcon(GooseIcon):
     """Icono que da una vida extra al cogerlo"""
     def __init__(self,spawner):

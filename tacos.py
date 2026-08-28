@@ -3,6 +3,7 @@ from random import randint
 from settings import *
 from effects import *
 from status import Game_Status
+from animations import linear_animation
 
 
 # TACO NORMAL
@@ -14,9 +15,16 @@ class NTaco(pygame.sprite.Sprite,):
         super().__init__()
         # rectangulo player
         self.gs = spawner.gs
-        self.image = pygame.image.load(
-            'images/n_taco.png').convert_alpha()
-        self.image.set_colorkey(black)
+        self.image_list = [
+            pygame.image.load('images/tacos/n_taco/n_taco_0.png').convert_alpha(),
+            pygame.image.load('images/tacos/n_taco/n_taco_1.png').convert_alpha(),
+            pygame.image.load('images/tacos/n_taco/n_taco_2.png').convert_alpha(),
+            pygame.image.load('images/tacos/n_taco/n_taco_3.png').convert_alpha(),
+        ]
+        self.index = 0
+        self.image = self.image_list[self.index]
+        self.animation_counter = 0
+        self.animation_interval = 10
         self.rect = self.image.get_rect()
         self.speed = 5 
         self.rect.bottom = 0
@@ -28,16 +36,26 @@ class NTaco(pygame.sprite.Sprite,):
         self.limon_sound = limon_sounds[randint(0,1)]
 
         
-
-
     def update(self):
+        self._animate_me()
         self._fall()
         self._crash()
         self._limon_event()
+        
+
+    def _animate_me(self):   
+        self.index, self.animation_counter = linear_animation(
+            self.image_list, 
+            self.animation_interval, 
+            self.index, 
+            self.animation_counter, 
+            )
+        self.image = self.image_list[self.index]
 
     def _fall(self):
         """caída"""
         self.rect.y += self.speed
+
     def _crash(self):
         """si cae al suelo, desaparece, resta una vida y deja un splat"""
         if self.rect.bottom > window_heigh:
