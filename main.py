@@ -257,11 +257,11 @@ class RainingTacos:
             for clancy in collision_clancy:
                 if clancy in clancies:
                     clancy.get_crumbs()
+
             self.gs.score +=1
             shark.play()
         
         if collision or collision_head:
-
             if self.gs.double:
                 self.gs.score += 2
             else:
@@ -269,10 +269,10 @@ class RainingTacos:
 
             if self.player.spice < self.player.max_spice: 
                 self.player.spice += 8
+
             self.player.get_crumbs()
             nom.play()
 
-            
         if collision_goose_icon or collision_goose_icon_head:
             self.player.get_goose()
             
@@ -404,7 +404,6 @@ class RainingTacos:
         self.spawner.m_taco_spawner = 0
         self.spawner.spawn_increase = self.spawner.init_spawn_increase
         
-
 
     def _recall_player(self):
         """Vuelve a crear la instancia de jugador"""

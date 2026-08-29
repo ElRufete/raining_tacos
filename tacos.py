@@ -123,15 +123,27 @@ class STaco(NTaco):
     """Speedy taco, un taco que cae a toda velocidad"""
     def __init__(self,spawner):
         super().__init__(spawner)
-        
-        self.image = pygame.image.load(
-            "images/s_taco.png").convert_alpha()
+
+        self.image_list = [
+            pygame.image.load("images/tacos/s_taco/s_taco_0001.png").convert_alpha(),
+            pygame.image.load("images/tacos/s_taco/s_taco_0002.png").convert_alpha(),
+            pygame.image.load("images/tacos/s_taco/s_taco_0003.png").convert_alpha(),
+            pygame.image.load("images/tacos/s_taco/s_taco_0004.png").convert_alpha(),
+        ]
+        self.image = self.image_list[0]
         self.speed = 7
+        self._call_fire()
 
     def update(self):
+        self._animate_me()
         self._fall()
         self._crash()
         self._limon_event()
+
+    def _call_fire(self):
+        self.fire = Fire(self)
+        effects.add(self.fire)
+
 
 class MTaco(NTaco):
     """Meditaco, un taco que se teletransporta durante la caida"""
