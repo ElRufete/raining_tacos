@@ -149,8 +149,13 @@ class MTaco(NTaco):
     """Meditaco, un taco que se teletransporta durante la caida"""
     def __init__(self,spawner):
         super().__init__(spawner)
-        self.image = pygame.image.load(
-            "images/m_taco.png").convert_alpha()
+        self.image_list = [
+            pygame.image.load("images/tacos/m_taco/m_taco_1.png").convert_alpha(),
+            pygame.image.load("images/tacos/m_taco/m_taco_2.png").convert_alpha(),
+            pygame.image.load("images/tacos/m_taco/m_taco_3.png").convert_alpha(),
+            pygame.image.load("images/tacos/m_taco/m_taco_4.png").convert_alpha(),
+        ]
+        self.image = self.image_list[0]
         self.rect.x = randint(100, window_width - 100)
         self.counter = 0
         self.sprite_counter = 0
@@ -159,6 +164,7 @@ class MTaco(NTaco):
     def update(self):
         self._fall()
         self._set_bounds()
+        self._animate_me()
         self._teleport()
         self._create_smoke()
         self._crash()
