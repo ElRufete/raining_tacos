@@ -6,6 +6,7 @@ from powerups import Goose, Bunshin
 from player_head import PlayerHead
 from animations import spring_animation
 
+
 class Player(pygame.sprite.Sprite):
     """Clase que representa al jugador principal"""
     def __init__(self, rt_game):
@@ -65,7 +66,6 @@ class Player(pygame.sprite.Sprite):
         if self.rect.right > window_width:
             self.rect.right = window_width
 
-
     def _dash(self):
         pressed = pygame.key.get_pressed()
 
@@ -92,7 +92,6 @@ class Player(pygame.sprite.Sprite):
                 )
             self.image = self.image_list[self.index]
             
-
         elif self.status == "idle":
             self.index, self.animation_counter, self.animation_increase = spring_animation(
                 self.idle_image_list, 
