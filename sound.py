@@ -9,7 +9,7 @@ class Music():
         pygame.mixer.music.load(self.music_file)
         pygame.mixer.music.play(loops)
         pygame.mixer.music.set_volume(volume)
-        
+       
     def pause_music(self):
         pygame.mixer.music.pause()
 

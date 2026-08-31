@@ -17,8 +17,10 @@ class RainingTacos:
         pygame.init()
         
         self.clock = pygame.time.Clock()
+
         self.screen = pygame.display.set_mode(
             (window_width,window_heigh))
+        
         self.screen_rect = self.screen.get_rect()
         self.screen.fill(black)
         self.background = pygame.image.load(
@@ -32,6 +34,7 @@ class RainingTacos:
         self.sky = pygame.Surface((
                 window_width, window_heigh)).convert_alpha()
         self.sky.fill(blue)
+
         self.player = Player(self)
         self.gs = Game_Status()
         self.spawner = Spawner(self)
@@ -41,6 +44,7 @@ class RainingTacos:
         self.debug = Debug(self)
         
         self.gs.check_saved_highscore()
+
         
     def run_game(self):
             """Maneja el bucle principal del juego"""
@@ -122,7 +126,6 @@ class RainingTacos:
                         self.gs.hello_index = 0
                         self.inst.index = 0
                         
-
         if self.gs.status == "jumpscare":
             self.screen.blit(self.black_bg,(0,0))
             effects.update()
@@ -160,7 +163,7 @@ class RainingTacos:
         self._draw_sprites()
         self.ui.blit_me()
         intro_tacos.draw(self.screen)
-        pygame.display.flip()        
+        pygame.display.flip()  
 
     def _check_events(self):
         """Busca eventos de teclado y ratón."""
@@ -176,10 +179,8 @@ class RainingTacos:
                 #comprueba si hay eventos de pulsación de tecla.
                 self._check_keyup_events(event)
 
-        
     def _check_keydown_events(self, event):
         pass
-
 
     def _check_keyup_events(self, event):
         if event.key == pygame.K_q:
@@ -189,7 +190,6 @@ class RainingTacos:
             if self.gs.status == "gameplay":
                 self.music.pause_music()
                 self.gs.status = "pause"
-
 
     def _check_collisions(self):
         """comprueba si los sprites chocan entre sí"""
@@ -233,7 +233,6 @@ class RainingTacos:
             self.player, double_icons, True)
         collision_double_icon_head = pygame.sprite.spritecollide(
             self.player, double_icons, True)
-
 
         if collision_bunshin:
             for bunshin in collision_bunshin:
@@ -317,7 +316,6 @@ class RainingTacos:
             else: self.gs.double_counter = self.gs.max_double_counter
             life_up.play()
 
-
     def _update_groups(self):
         """actualiza el estado de los Sprites en cada bucle"""
         tacos.update()
@@ -336,7 +334,6 @@ class RainingTacos:
         double_icons.update()
         heads.update()
         
-
     def _draw_sprites(self):
         """Dibuja los sprites en la pantalla"""
         tacos.draw(self.screen)
@@ -358,7 +355,6 @@ class RainingTacos:
 
         effects.draw(self.screen)  
         
-
     def restart_gameplay(self):
         """reinicia la partida"""
         self._reset_stats()
@@ -366,7 +362,6 @@ class RainingTacos:
         self._recall_player()
         self.music.play_music()
         self.gs.status = "gameplay"
-
 
     def _clear_groups(self):
         """Elimina todos los sprites"""
@@ -386,7 +381,6 @@ class RainingTacos:
         effects.empty()
         heads.empty()
 
-
     def _reset_stats(self):
         """Devuelve las estadísticas al estado inicial"""
         self.gs.lives = self.gs.init_lives
@@ -403,8 +397,7 @@ class RainingTacos:
         self.spawner.s_taco_spawner = 0
         self.spawner.m_taco_spawner = 0
         self.spawner.spawn_increase = self.spawner.init_spawn_increase
-        
-
+      
     def _recall_player(self):
         """Vuelve a crear la instancia de jugador"""
         self.player = Player(self)

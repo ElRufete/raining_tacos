@@ -38,6 +38,7 @@ class Goose(pygame.sprite.Sprite):
         self._bounce()
         self._kill_me()
 
+
     def _animate_me(self):    
         """itera entre los diferentes frames de la animación"""
         self.animation_counter += 1
@@ -45,9 +46,11 @@ class Goose(pygame.sprite.Sprite):
             self.animation += self.increase_animation
             self.increase_animation *= -1
 
+
     def _move_up(self):
         """sube"""
         self.rect.y -= 2.5
+
 
     def _bounce(self):
         """rebota al alcancar el borde lateral de la pantalla"""
@@ -65,6 +68,7 @@ class Goose(pygame.sprite.Sprite):
             self.rect.x += 6
             self.image = self.right_image_list[self.animation]
 
+
     def get_crumbs(self):
         """deja migas al comerse un taco"""
         if self.go_left:
@@ -73,7 +77,6 @@ class Goose(pygame.sprite.Sprite):
             self.crumbs = Crumbs(self.rect.midright)
         effects.add(self.crumbs)
     
-
            
     def _kill_me(self):
         """elimina el sprite cuando llega a la parte superior"""
@@ -102,7 +105,6 @@ class Bunshin(pygame.sprite.Sprite):
         self.flicker = False
         self.head = PlayerHead(self)
         
-
     def update(self, player):
         self.counter += 1
         self.image = player.image
@@ -116,7 +118,7 @@ class Bunshin(pygame.sprite.Sprite):
         """crea un efecto de niebla"""   
         mist = Mist(self.rect.midbottom)
         effects.add(mist)
-   
+  
     def _call_mist(self, player):
         """llama al efecto de niebla al aparecer y desaparecer"""
         if self.counter == 1:
@@ -129,13 +131,14 @@ class Bunshin(pygame.sprite.Sprite):
             jutsu.play()
             self.head.kill()
             self.kill()
-            
+           
     def renew(self):
         self.counter = 1
         nani.play()
 
     def _move(self, player):
         """mueve al bunshin solo si el jugador está en los límites de la pantalla"""
+
         pressed = pygame.key.get_pressed()
 
         if player.rect.left > 0 and player.rect.right < window_width:
@@ -146,9 +149,9 @@ class Bunshin(pygame.sprite.Sprite):
             elif pressed[pygame.K_d] or pressed[pygame.K_RIGHT]:
                 self.rect.x += player.speed
 
+
     def _flicker(self):
         """El clon parpadea cuando está a punto de expirar"""
-
 
         if (self.counter / 12).is_integer() and self.counter >= self.flicker_thresshold <= self.hard_flicker_thersshold:
             self.flicker = True
@@ -164,10 +167,10 @@ class Bunshin(pygame.sprite.Sprite):
             self.image.fill(black)
             self.image.set_colorkey(black)
             
-
     def get_crumbs(self):
             self.crumbs = Crumbs(self.rect.midtop)
             effects.add(self.crumbs)
+
 
 class Clancy(pygame.sprite.Sprite):
     """Un cangrejo de río que se come los tacos a punto de caer"""
@@ -202,7 +205,7 @@ class Clancy(pygame.sprite.Sprite):
 
         if self.counter >= 20:
             self.status = 'go down'
-            
+           
     def go_down(self):
         """vuelve a bajar si no se ha encontrado ningún taco"""
         if self.status == 'go down':
@@ -225,7 +228,7 @@ class GooseIcon(NTaco):
         self.image = pygame.image.load("images/eater_buff.png").convert_alpha()
         self.speed = 4
         self.sound = glass
-        
+      
     def _crash(self):
         """Si cae al suelo desaparece"""
         if self.rect.bottom > window_heigh:
@@ -236,17 +239,20 @@ class GooseIcon(NTaco):
         self._fall()
         self._crash()
 
+
 class HeartIcon(GooseIcon):
     """Icono que da una vida extra al cogerlo"""
     def __init__(self,spawner):
         super().__init__(spawner)
         self.image = pygame.image.load("images/live_buff.png").convert_alpha()
 
+
 class BunshinIcon(GooseIcon):
     """icono que genera clones del jugador durante un timepo al cogerlo"""
     def __init__(self, spawner):
         super().__init__(spawner)
         self.image = pygame.image.load("images/bunshin_buff.png").convert_alpha()
+
 
 class LimonIcon(GooseIcon):
     """Icono que al cogerlo, convierte los tacos en limones"""
@@ -255,6 +261,7 @@ class LimonIcon(GooseIcon):
         self.image = pygame.image.load("images/limon_icon.png").convert_alpha()
         self.image.set_colorkey(white)
 
+
 class ClancyIcon(GooseIcon):
     """Icono que al cogerlo invoca a Clancy durante un tiempo"""
     def __init__(self,spawner):
@@ -262,12 +269,14 @@ class ClancyIcon(GooseIcon):
         self.image = pygame.image.load("images/clancy_icon.png").convert_alpha()
         self.image.set_colorkey(white)
 
+
 class PepperIcon(GooseIcon):
      """icono que otorga spice al cogerlo"""
      def __init__(self,spawner):
         super().__init__(spawner)
         self.image = pygame.image.load("images/pepper_icon.png").convert_alpha()
         self.image.set_colorkey(white)
+
 
 class DoubleIcon(GooseIcon):
     """icono que duplica la puntuación de los tacos durante un tiempo"""

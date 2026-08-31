@@ -50,7 +50,6 @@ hello = [pygame.mixer.Sound('Sounds/_hello.ogg'),
          pygame.mixer.Sound('Sounds/_hi.ogg')]
 scream = pygame.mixer.Sound('Sounds/_jumpscare.ogg')
 
-
 #GRUPOS
 
 tacos = pygame.sprite.Group()

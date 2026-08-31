@@ -31,6 +31,7 @@ class Player(pygame.sprite.Sprite):
         self.spice = 0
         self.animation_counter = 0
         self.animation_increase = 1
+        self.animation_interval = 15
         self.speedup_counter = 0
         self.bunshin_active = False
         self.bunshin_counter = 0
@@ -45,21 +46,18 @@ class Player(pygame.sprite.Sprite):
         self._spice_cap()
         self._animate_me()
         
-
     def _move(self):
         """mueve al jugador de izquierda a derecha"""
         pressed = pygame.key.get_pressed()
 
         if pressed[pygame.K_a] or pressed[pygame.K_LEFT]:
             self.rect.x -= self.speed
-            self.status = "moving"
-            
+            self.status = "moving"          
 
         elif pressed[pygame.K_d] or pressed[pygame.K_RIGHT]:
             self.rect.x += self.speed
             self.status = "moving"
             
-
         else:
             self.status = "idle"
         
@@ -71,27 +69,25 @@ class Player(pygame.sprite.Sprite):
 
 
     def _dash(self):
-
         pressed = pygame.key.get_pressed()
 
         if pressed[pygame.K_SPACE] and self.spice > 0:
             self.speed = 16
+            self.animation_interval = 7
             self.spice -= 1
             self.speedup_counter += 1
             
         else:
             self.speed = 8
-            self.speedup_counter = 0
-            
+            self.animation_interval = 15
+            self.speedup_counter = 0           
 
- 
-    def _animate_me(self):
-        
+    def _animate_me(self):       
         if self.status == "moving":
             
             self.index, self.animation_counter, self.animation_increase = spring_animation(
                 self.image_list, 
-                15, 
+                self.animation_interval, 
                 self.index, 
                 self.animation_counter, 
                 self.animation_increase
@@ -125,7 +121,7 @@ class Player(pygame.sprite.Sprite):
     def get_crumbs(self):
         crumbs = Crumbs(self.rect.midtop)
         effects.add(crumbs)
-
+        
     def call_head(self):
         self.head = PlayerHead(self)
         heads.add(self.head)

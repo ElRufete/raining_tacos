@@ -34,15 +34,13 @@ class NTaco(pygame.sprite.Sprite,):
         self.limon_counter = 0
         self.limon_thresshold = randint(10, 35)
         self.limon_sound = limon_sounds[randint(0,1)]
-
-        
+       
     def update(self):
         self._animate_me()
         self._fall()
         self._crash()
         self._limon_event()
         
-
     def _animate_me(self):   
         self.index, self.animation_counter = linear_animation(
             self.image_list, 
@@ -226,14 +224,12 @@ class MTaco(NTaco):
             if self.rect.left < 0:
                 self.rect.left = 0
 
-
     def _teleport(self):
         """Se teletransporta aleatoriamente a izquierda o derecha"""
         self.counter += 1
         if self.counter == 90:
             self.rect.x += randint(-350, 350)
             
-
     def _create_smoke(self):
         """Crea una nube de humo al teletransportarse"""
         if self.counter == 89:
@@ -243,7 +239,6 @@ class MTaco(NTaco):
             smoke = Smoke(self.rect.center)
             effects.add(smoke)
             
-
 
 class Splat(pygame.sprite.Sprite):
     """una mancha de barro que aparece si un taco cae al suelo"""
@@ -261,6 +256,7 @@ class Splat(pygame.sprite.Sprite):
         if self.counter == 25:
             self.kill()
 
+
 class IntroTaco(pygame.sprite.Sprite):
     """un taco que cae como transición al menú principal"""
     def __init__(self):
@@ -276,9 +272,11 @@ class IntroTaco(pygame.sprite.Sprite):
     def update(self):
         self.rect.y += self.speed
 
+
 class BalloonBoy(pygame.sprite.Sprite):
     """jumpscare de Balloon Boy que aparece si se pulsa 10 veces
     el botón oculto en las instrucciones"""
+
     def __init__(self, caller):
         super().__init__()
         self.image = pygame.image.load(
@@ -324,7 +322,6 @@ class BalloonBoy(pygame.sprite.Sprite):
             self.rect.centerx = (window_width // 2) - 5
         if self.rect.centerx > (window_width // 2) + 5:
             self.rect.centerx = (window_width // 2) + 5
-
 
     def _kill_me(self):
         """Baloon Boy desaparece al final del jumpscare"""

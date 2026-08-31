@@ -4,10 +4,11 @@ from tacos import *
 from powerups import *
 from clouds import Cloud, BackCloud
 
+
 class Spawner():
     """clase que maneja los tiempos de spawn de tacos, powerups y nubes"""
-    def __init__ (self, rt_game):
 
+    def __init__ (self, rt_game):
         self.player = rt_game.player
         self.gs = rt_game.gs
         self.screen_rect = rt_game.screen_rect
@@ -53,7 +54,6 @@ class Spawner():
             'cond' : lambda gs: gs.score >= 100 and len(limon_icons) == 0},  
         ]
        
-        
         self.drop_clouds = True
         self.clancy_active = False
         self.max_clancy_counter = 540
@@ -61,7 +61,6 @@ class Spawner():
         self.intro_counter = 0
 
     def update(self):
-
         if self.gs.status == "intro":
             self.intro_counter += 1
             if self.intro_counter == 240:
@@ -84,7 +83,7 @@ class Spawner():
     def spawn_balloon_boy(self):
         self.balloon_boy = BalloonBoy(self)
         effects.add(self.balloon_boy)
-        
+
     def _spawn_taco(self):
          """genera tacos cada cierto tiempo"""
 
@@ -94,8 +93,6 @@ class Spawner():
                    if taco['counter'] >= taco['threshold']:
                         tacos.add(taco['name'](self))
                         taco['counter'] = 0
-
-
 
     def _spawn_clancy(self):
         """genera un clancy cuando un taco está a punto de caer"""
@@ -110,7 +107,6 @@ class Spawner():
             self.clancy_active = False
             self.clancy_counter = self.max_clancy_counter
 
-
     def _increase_difficulty(self):
         """Aumenta la frecuencia de spawn al subir la puntuación"""
         if self.gs.score >= 40 and self.gs.score < 70:
@@ -124,8 +120,7 @@ class Spawner():
 
         elif self.gs.score >= 170:
             self.spawn_increase = 9
-
-            
+ 
         ###############################   ICON ROULETTE    ########################
 
     def _roll_roulette(self):
@@ -152,7 +147,6 @@ class Spawner():
                         limon_icons.add(icon)
         self._improve_droprate()
 
-
     def _improve_droprate(self):
         """Aumenta la probabilidad de obtener 
         power-ups al aumentar la puntuación"""
@@ -161,9 +155,7 @@ class Spawner():
         if self.gs.score >= 150:
             self.roulette_range = 30_000
 
-
     ###### MENU METHODS ########
-
 
     def _drop_clouds(self):
         """dibuja las nubes en el cielo"""

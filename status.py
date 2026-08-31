@@ -29,12 +29,10 @@ class Game_Status():
             self.high_score = 0    
     
     def load_high_score(self):
-
         contents = self.path.read_text()
         self.high_score = json.loads(contents)
 
     def save_high_score(self):
-
         contents = json.dumps(self.high_score)
         self.path.write_text(contents) 
 

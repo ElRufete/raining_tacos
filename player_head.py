@@ -18,19 +18,18 @@ class PlayerHead(pygame.sprite.Sprite):
         self.rect.midbottom = self.caller.rect.midtop
         heads.add(self)
         
-
-
     def update(self):
         self._head_follows_body()
         self._animate_me()
         self._flicker()
 
-
     def _head_follows_body(self):
         self.rect.midbottom = self.caller.rect.midtop
 
         if self.caller.status == 'idle' and self.caller.index == 1:
-            self.rect.midbottom = (self.caller.rect.left + self.caller.rect.width // 2, self.caller.rect.top + 2)
+            self.rect.midbottom = (
+                self.caller.rect.left + self.caller.rect.width // 2, self.caller.rect.top + 2
+                )
 
     def _animate_me(self):
         if self.check_close_tacos():

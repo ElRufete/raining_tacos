@@ -65,7 +65,6 @@ class UI():
         self.logo_rect.center = self. screen_rect.center
         self.logo.set_alpha(self.logo_alpha)
         
-
         #BUTTON IMAGES
         
         self.play_img = [
@@ -123,8 +122,7 @@ class UI():
             self.l_arrow_img,True, False)
         self.hidden_img = pygame.Surface((60, 42)).convert_alpha()
         self.hidden_img.set_colorkey(black)
-        
-        
+                
         ##BUTTONS##
 
         self.resume_bt = Button(self.resume_img[0])
@@ -137,8 +135,7 @@ class UI():
         self.l_arrow_bt = Button(self.l_arrow_img)
         self.r_arrow_bt = Button(self.r_arrow_img)
         self.hidden_bt = Button(self.hidden_img)
-        
-       
+              
     def blit_me(self):
         """muestra los elementos en pantalla"""
         if self.gs.status == "gameplay":
@@ -203,7 +200,6 @@ class UI():
                 self.screen_rect.centerx,(self.screen_rect.centery + 150))
              self.menu_bt.change_image(self.menu_img)
              
-
         if self.gs.status == "game over":
             self.pause_blackout.set_alpha(255)
             self.screen.blit(self.pause_blackout, self.screen_rect.topleft)
@@ -230,7 +226,6 @@ class UI():
             self.screen_rect.centerx,(self.screen_rect.centery + 60))
             self.menu_bt.change_image(self.menu_img)
         
-
             ##### GAMEPLAY BAR METHODS #######
 
     def show_spice_bar(self):
@@ -277,15 +272,11 @@ class UI():
             750, self.background_rect.top + 15,
                 150, 19 )
         
-        
-
         #### PAUSE MENU METHODS ####
-
-        
-    def create_bar(self, screen, param, max_param, x, y,
-                   long, wide):
-
-        
+       
+    def create_bar(
+            self, screen, param, max_param, x, y,long, wide
+            ):      
         self.bar_calc = int((param / max_param) * long)
         
         self.edge = pygame.Rect(x, y, long, wide)
