@@ -30,7 +30,7 @@ class UI():
         self.heart_icon = pygame.image.load(
             'images/live_buff.png').convert_alpha()
         self.taco_icon = pygame.image.load(
-            'images/n_taco.png').convert_alpha()
+            'images/tacos/n_taco/n_taco_1.png').convert_alpha()
         self.clancy_icon = pygame.image.load(
             'images/clancy_icon.png').convert_alpha()
         self.clancy_icon.set_colorkey(white)
@@ -251,7 +251,7 @@ class UI():
         
     def show_score(self):
         self.screen.blit(
-            pygame.transform.scale(self.taco_icon, (40, 30)),
+            pygame.transform.scale(self.taco_icon, (40, 25)),
               (400, self.background_rect.top + 10))
         self.show_text(
             self.screen, comic, str(self.gs.score), white,

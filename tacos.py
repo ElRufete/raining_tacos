@@ -3,7 +3,7 @@ from random import randint
 from settings import *
 from effects import *
 from status import Game_Status
-from animations import linear_animation
+from animations import linear_animation, spring_animation
 
 
 # TACO NORMAL
@@ -86,38 +86,87 @@ class BTaco(NTaco):
     """Balloon taco: Un taco que se balancea por la pantalla"""
     def __init__(self,spawner):
         super().__init__(spawner) 
-        self.rect.x = randint(0, window_width - 270)
+        
         self.speed = 4
+        self.x_speed = 5
+        
         self.bounce_counter = 0
+        self.bounce_cycle = 80
         self.go_left = False
-        self.right_image = pygame.image.load(
-                "images/b_taco_right.png").convert_alpha()
-        self.left_image = pygame.image.load(
-                "images/b_taco_left.png").convert_alpha()
+
+        self.increase = 1
+        self.interval = 10
+
+        self.right_image_list = [
+            pygame.image.load(
+                "images/tacos/b_taco/b_taco_right/b_taco_right_1.png").convert_alpha(),
+            pygame.image.load(
+                "images/tacos/b_taco/b_taco_right/b_taco_right_2.png").convert_alpha(),
+            pygame.image.load(
+                "images/tacos/b_taco/b_taco_right/b_taco_right_3.png").convert_alpha(),
+            pygame.image.load(
+                "images/tacos/b_taco/b_taco_right/b_taco_right_4.png").convert_alpha(),
+        ]
+        self.left_image_list = [
+            pygame.image.load(
+                "images/tacos/b_taco/b_taco_left/b_taco_left_1.png").convert_alpha(),
+            pygame.image.load(
+                "images/tacos/b_taco/b_taco_left/b_taco_left_2.png").convert_alpha(),
+            pygame.image.load(
+                "images/tacos/b_taco/b_taco_left/b_taco_left_3.png").convert_alpha(),
+            pygame.image.load(
+                "images/tacos/b_taco/b_taco_left/b_taco_left_4.png").convert_alpha(),
+        ]
+        self.right_image = self.right_image_list[0]
+        self.left_image = self.left_image_list[0]
+
+        self.rect.x = randint(
+            0, window_width - self.rect.width - (self.x_speed * (self.bounce_cycle // 2)))
 
     def update(self):
         self._fall()
         self._bounce()
+        self._animate_me()
         self._crash()
         self._limon_event()
 
     def _bounce(self):
         '''El taco se mueve de izquierda a derecha'''
         self.bounce_counter += 1
-        if self.go_left == False:
-            self.rect.x += 8
-            self.image = self.right_image
-
-        if self.bounce_counter >= 30:
+        if not self.go_left:
+            self.rect.x += self.x_speed
+            
+        if self.bounce_counter >= self.bounce_cycle // 2:
             self.go_left = True
 
         if self.go_left:
-            self.rect.x -= 8
-            self.image = self.left_image
+            self.rect.x -= self.x_speed
 
-        if self.bounce_counter >= 60:
+        if self.bounce_counter >= self.bounce_cycle:
             self.go_left = False
             self.bounce_counter = 0
+
+    def _check_direction(self):
+        direction = "left" if self.go_left else "right"
+        return direction
+    
+    def _animate_me(self):
+        direction = self._check_direction()
+
+        self.index, self.animation_counter, self.increase = spring_animation(
+                        self.left_image_list,
+                        self.interval,
+                        self.index,
+                        self.animation_counter,
+                        self.increase
+                    )
+        
+        if direction == "left":
+            self.image = self.left_image_list[self.index]
+
+        if direction == "right":
+            self.image = self.right_image_list[self.index]
+
 
 class STaco(NTaco):
     """Speedy taco, un taco que cae a toda velocidad"""
