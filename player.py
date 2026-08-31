@@ -38,8 +38,6 @@ class Player(pygame.sprite.Sprite):
         self.status = 'idle'
         self.head = PlayerHead(self)
         
-        
-
     def update(self):
         self._move()
         self._dash()
