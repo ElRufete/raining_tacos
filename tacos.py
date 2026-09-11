@@ -6,7 +6,7 @@ from status import Game_Status
 from animations import linear_animation, spring_animation
 
 
-# TACO NORMAL
+
 class NTaco(pygame.sprite.Sprite,):
     """Un taco normal que simplemente cae"""
     # sprite del jugador
@@ -60,7 +60,7 @@ class NTaco(pygame.sprite.Sprite,):
             self.kill()
             self.gs.lives -= 1
             taco_fall.play()
-            splat = Splat(self.rect.center)
+            splat = Splat(self.rect.midbottom)
             effects.add(splat)
 
     def _limon_event(self):
@@ -86,10 +86,10 @@ class BTaco(NTaco):
         super().__init__(spawner) 
         
         self.speed = 4
-        self.x_speed = 5
+        self.x_speed = 8
         
         self.bounce_counter = 0
-        self.bounce_cycle = 80
+        self.bounce_cycle = 60
         self.go_left = False
 
         self.increase = 1
@@ -244,16 +244,37 @@ class Splat(pygame.sprite.Sprite):
     """una mancha de barro que aparece si un taco cae al suelo"""
     def __init__(self, pos):
         super().__init__()
-
-        self.image = pygame.image.load(
-            "images/splat.png").convert_alpha()
+        self.image_list = [
+            pygame.image.load("images/tacos/splat/splat_1.png"),
+            pygame.image.load("images/tacos/splat/splat_2.png"),
+            pygame.image.load("images/tacos/splat/splat_3.png"),
+            pygame.image.load("images/tacos/splat/splat_4.png"),
+            pygame.image.load("images/tacos/splat/splat_5.png"),
+            pygame.image.load("images/tacos/splat/splat_6.png"),
+            pygame.image.load("images/tacos/splat/splat_7.png"),
+        ]
+        self.index = 0
+        self.image = self.image_list[self.index]
         self.rect = self.image.get_rect()
-        self.rect.center = pos
+        self.rect.midbottom = pos
+        self.interval = 3
         self.counter = 0
+        self.animation_counter = 0
 
     def update(self):
-        self.counter += 1
-        if self.counter == 25:
+        self._animate_me()
+        self._kill_me()
+
+    def _animate_me(self):
+        self.index, self.animation_counter = linear_animation(
+            self.image_list, 
+            self.interval, 
+            self.index, 
+            self.animation_counter)
+        self.image = self.image_list[self.index] 
+
+    def _kill_me(self):
+        if self.index == len(self.image_list) - 1 and self.animation_counter >= self.interval - 1:
             self.kill()
 
 

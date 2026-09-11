@@ -14,7 +14,6 @@ class Button():
         """muestra el botón en la pantalla"""
         self.rect.center = (x, y)
         surface.blit(self.image, (self.rect.x, self.rect.y))
-        
 
     def click(self):
         """comprueba que el botón se ha clicado"""
@@ -50,5 +49,4 @@ class Button():
             self.image_id = 0
 
         self.image = image[self.image_id]
-        
 
