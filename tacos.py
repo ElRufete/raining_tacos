@@ -37,6 +37,7 @@ class NTaco(
         self.limon_counter = 0
         self.limon_thresshold = randint(10, 35)
         self.limon_sound = limon_sounds[randint(0, 1)]
+        self.ghost = GhostNTaco(self)
 
     def update(self):
         self._animate_me()
@@ -65,9 +66,9 @@ class NTaco(
             self.gs.lives -= 1
             taco_fall.play()
             splat = Splat(self.rect.midbottom)
-            ghost = GhostNTaco(self)
             effects.add(splat)
-            effects.add(ghost)
+            self.ghost.rect.midbottom = self.rect.midbottom
+            effects.add(self.ghost)
 
     def _limon_event(self):
         """Evento que ocurre al adquirir el power-up limón,los tacos
@@ -137,6 +138,7 @@ class BTaco(NTaco):
             0,
             window_width - self.rect.width - (self.x_speed * (self.bounce_cycle // 2)),
         )
+        self.ghost = GhostBTaco(self)
 
     def update(self):
         self._fall()
@@ -182,18 +184,6 @@ class BTaco(NTaco):
         if direction == "right":
             self.image = self.right_image_list[self.index]
 
-    def _crash(self):
-        """si cae al suelo, desaparece, resta una vida y deja un splat
-        y un fantasma."""
-        if self.rect.bottom > window_heigh:
-            self.kill()
-            self.gs.lives -= 1
-            taco_fall.play()
-            splat = Splat(self.rect.midbottom)
-            ghost = GhostBTaco(self)
-            effects.add(splat)
-            effects.add(ghost)
-
 
 class STaco(NTaco):
     """Speedy taco, un taco que cae a toda velocidad"""
@@ -210,6 +200,7 @@ class STaco(NTaco):
         self.image = self.image_list[0]
         self.speed = 7
         self._call_fire()
+        self.ghost = GhostSTaco(self)
 
     def update(self):
         self._animate_me()
@@ -221,17 +212,6 @@ class STaco(NTaco):
         self.fire = Fire(self)
         effects.add(self.fire)
 
-    def _crash(self):
-        """si cae al suelo, desaparece, resta una vida y deja un splat
-        y un fantasma."""
-        if self.rect.bottom > window_heigh:
-            self.kill()
-            self.gs.lives -= 1
-            taco_fall.play()
-            splat = Splat(self.rect.midbottom)
-            ghost = GhostSTaco(self)
-            effects.add(splat)
-            effects.add(ghost)
 
 class MTaco(NTaco):
     """Meditaco, un taco que se teletransporta durante la caida"""
@@ -249,6 +229,7 @@ class MTaco(NTaco):
         self.counter = 0
         self.sprite_counter = 0
         self.teleport = False
+        self.ghost = GhostMTaco(self)
 
     def update(self):
         self._fall()
@@ -281,17 +262,6 @@ class MTaco(NTaco):
             smoke = Smoke(self.rect.center)
             effects.add(smoke)
 
-    def _crash(self):
-        """si cae al suelo, desaparece, resta una vida y deja un splat
-        y un fantasma."""
-        if self.rect.bottom > window_heigh:
-            self.kill()
-            self.gs.lives -= 1
-            taco_fall.play()
-            splat = Splat(self.rect.midbottom)
-            ghost = GhostMTaco(self)
-            effects.add(splat)
-            effects.add(ghost)
 
 class Splat(pygame.sprite.Sprite):
     """una mancha de barro que aparece si un taco cae al suelo"""

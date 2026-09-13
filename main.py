@@ -301,7 +301,7 @@ class RainingTacos:
             
         if collision_limon_icon or collision_limon_icon_head:
             for taco in tacos:
-                taco.islimon = True
+                taco.is_limon = True
             limon_sounds[0].play()
 
         if collision_clancy_icon or collision_clancy_icon_head:
