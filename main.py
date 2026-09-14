@@ -20,6 +20,9 @@ class RainingTacos:
 
         self.screen = pygame.display.set_mode(
             (window_width,window_heigh))
+        self.title = pygame.display.set_caption("Raining Tacos")
+        self.icon = pygame.image.load("images/personaje/player_head_0.png")
+        self.display_icon = pygame.display.set_icon(self.icon)
         
         self.screen_rect = self.screen.get_rect()
         self.screen.fill(black)

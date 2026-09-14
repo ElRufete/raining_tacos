@@ -42,10 +42,9 @@ class Smoke(pygame.sprite.Sprite):
             self.kill()
 
     
-class Mist(pygame.sprite.Sprite):
+class Mist(Smoke):
     def __init__(self, pos):
-        super().__init__()
-
+        super().__init__(pos)
         self.image_list = [
             pygame.image.load('images/mist/1.png').convert_alpha(),
             pygame.image.load('images/mist/2.png').convert_alpha(),
@@ -58,31 +57,11 @@ class Mist(pygame.sprite.Sprite):
             pygame.image.load('images/mist/9.png').convert_alpha(),
         ]
 
-        self.index = 0
         self.image = self.image_list[self.index]
         self.image.set_colorkey(black)
         self.rect = self.image.get_rect()
         self.rect.midbottom = pos
-        self.animation_counter = 0
-        self.animation = 0
         self.interval = 5
-
-    def update(self):
-        self._animate_me()
-        self._kill_me()
-
-    def _animate_me(self):
-        self.index, self.animation_counter = linear_animation(
-            self.image_list, 
-            self.interval,
-            self.index,
-            self.animation_counter
-        )
-        self.image = self.image_list[self.index]
-
-    def _kill_me(self):
-        if self.index >= len(self.image_list) - 1 and self.animation_counter >= self.interval - 1:
-            self.kill()
 
 
 class Crumbs(pygame.sprite.Sprite):
