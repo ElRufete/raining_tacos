@@ -16,27 +16,29 @@ class Smoke(pygame.sprite.Sprite):
             pygame.image.load("images/smoke/6.png").convert_alpha(),
             pygame.image.load("images/smoke/7.png").convert_alpha()
         ]
-        self.image = self.image_list[0]
+        self.index = 0
+        self.image = self.image_list[self.index]
         self.image.set_colorkey(black)
         self.rect = self.image.get_rect()
         self.rect.center = pos
-        self.counter = 0
-        self.animation = 0
-
+        self.animation_counter = 0
+        self.interval = 4
+    
     def update(self):
         self._animate_me()
+        self._kill_me()
 
     def _animate_me(self):
-        self.counter += 1
-        self.image = self.image_list[self.animation]
-        self.image.set_colorkey(black)
+        self.index, self.animation_counter = linear_animation(
+            self.image_list, 
+            self.interval,
+            self.index,
+            self.animation_counter
+        )
+        self.image = self.image_list[self.index]
 
-        if self.counter == 4:
-            self.animation += 1
-            self.counter = 0
-
-        if self.animation == 6:
-            self.animation = 0
+    def _kill_me(self):
+        if self.index >= len(self.image_list) - 1 and self.animation_counter >= self.interval - 1:
             self.kill()
 
     
@@ -56,29 +58,32 @@ class Mist(pygame.sprite.Sprite):
             pygame.image.load('images/mist/9.png').convert_alpha(),
         ]
 
-        self.image = self.image_list[0]
+        self.index = 0
+        self.image = self.image_list[self.index]
         self.image.set_colorkey(black)
         self.rect = self.image.get_rect()
         self.rect.midbottom = pos
-        self.counter = 0
+        self.animation_counter = 0
         self.animation = 0
+        self.interval = 5
 
     def update(self):
         self._animate_me()
+        self._kill_me()
 
     def _animate_me(self):
+        self.index, self.animation_counter = linear_animation(
+            self.image_list, 
+            self.interval,
+            self.index,
+            self.animation_counter
+        )
+        self.image = self.image_list[self.index]
 
-        self.counter += 1
-        self.image = self.image_list[self.animation]
-
-        if self.counter == 5:
-            self.animation += 1
-            self.counter = 0
-
-        if self.animation == 8 and self.counter == 4:
-            self.animation = 0
-            self.counter = 0
+    def _kill_me(self):
+        if self.index >= len(self.image_list) - 1 and self.animation_counter >= self.interval - 1:
             self.kill()
+
 
 class Crumbs(pygame.sprite.Sprite):
     def __init__(self, pos):
@@ -131,6 +136,7 @@ class Limon(pygame.sprite.Sprite):
                 self.image = pygame.image.load('images/limon.png').convert_alpha()
                 self.image.set_colorkey(white)
                 pygame.transform.scale(self.image,(45,30))
+
 
 class Fire(pygame.sprite.Sprite):
     def __init__(self, caller):
