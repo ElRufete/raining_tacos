@@ -228,7 +228,7 @@ class RainingTacos:
         collision_clancy_icon = pygame.sprite.spritecollide(
             self.player, clancy_icons, True)
         collision_clancy_icon_head = pygame.sprite.spritecollide(
-            self.player, clancy_icons, True)
+            self.player.head, clancy_icons, True)
         collision_double_icon = pygame.sprite.spritecollide(
             self.player, double_icons, True)
         collision_double_icon_head = pygame.sprite.spritecollide(
