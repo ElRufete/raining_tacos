@@ -14,13 +14,13 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
         # rectangulo player
         self.image_list = [
-            pygame.image.load('images/personaje/player_0.png'),
-            pygame.image.load('images/personaje/player_1.png'),
-            pygame.image.load('images/personaje/player_2.png'),
+            pygame.image.load('images/personaje/player_0.png').convert_alpha(),
+            pygame.image.load('images/personaje/player_1.png').convert_alpha(),
+            pygame.image.load('images/personaje/player_2.png').convert_alpha(),
             ]
         self.idle_image_list = [
-            pygame.image.load('images/personaje/player_1.png'),
-            pygame.image.load('images/personaje/player_idle_1.png'),
+            pygame.image.load('images/personaje/player_1.png').convert_alpha(),
+            pygame.image.load('images/personaje/player_idle_1.png').convert_alpha(),
         ]
         self.index = 0
         self.image = self.image_list[self.index]

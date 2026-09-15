@@ -7,10 +7,10 @@ class PlayerHead(pygame.sprite.Sprite):
 
         self.caller = caller
         self.image_list = [
-                pygame.image.load('images/personaje/player_head_0.png'),
-                pygame.image.load('images/personaje/player_head_1.png'),
-                pygame.image.load('images/personaje/player_head_2.png'),
-                ]
+                pygame.image.load('images/personaje/player_head_0.png').convert_alpha(),
+                pygame.image.load('images/personaje/player_head_1.png').convert_alpha(),
+                pygame.image.load('images/personaje/player_head_2.png').convert_alpha(),
+        ]
         self.nom_image = pygame.image.load('images/personaje/player_head_nom.png')
         
         self.image = self.image_list[1]
